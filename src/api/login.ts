@@ -1,9 +1,7 @@
 import { BASE_URL } from "./const";
-import {
-  getAccessTokenFromLocalStorage,
-  saveAccessTokenToLocalStorage,
-} from "../utils/accessTokenHandler";
+import { saveAccessTokenToLocalStorage } from "../utils/accessTokenHandler";
 import { UserInfo } from "../types/user";
+import { fetchClient } from "./fetchClient";
 
 type LoginResult = "success" | "fail";
 
@@ -92,11 +90,10 @@ export const login = async (args: LoginRequest): Promise<LoginResult> => {
 };
 
 export const getCurrentUserInfo = async (): Promise<UserInfo | null> => {
-  const userInfoResult = await fetch(`${BASE_URL}/profile`, {
+  const userInfoResult = await fetchClient(`${BASE_URL}/profile`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${getAccessTokenFromLocalStorage()}`,
     },
   });
 
